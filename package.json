@@ -1,0 +1,10 @@
+{
+  "name": "aoc21",
+  "private": true,
+  "scripts": {
+    "prettier": "prettier -w ."
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  }
+}
