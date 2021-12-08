@@ -5,6 +5,7 @@
     "prettier": "prettier -w ."
   },
   "devDependencies": {
+    "canvas": "^2.8.0",
     "prettier": "^2.5.1"
   }
 }
