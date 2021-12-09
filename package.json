@@ -2,11 +2,13 @@
   "name": "aoc21",
   "private": true,
   "scripts": {
-    "prettier": "prettier -w ."
+    "postinstall": "husky install",
+    "precommit": "prettier -w . && git add ."
   },
   "devDependencies": {
     "canvas": "^2.8.0",
     "debug": "^4.3.3",
+    "husky": "^7.0.4",
     "prettier": "^2.5.1"
   }
 }
