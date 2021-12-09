@@ -42,7 +42,9 @@ function computeLocationWithAim(commands) {
   return x * y;
 }
 
-const commands = require('fs').readFileSync('inputs/d2.txt', 'utf-8').split("\n");
+const commands = require("fs")
+  .readFileSync("inputs/d2.txt", "utf-8")
+  .split("\n");
 
 console.log(computeLocation(commands));
 console.log(computeLocationWithAim(commands));

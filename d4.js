@@ -10,17 +10,17 @@ function getScore(board, pick) {
 }
 
 function printBoard(board) {
-  const printable = board.map(n => n.length == 1 ? ` ${n}` : n);
-  for(let i = 0; i < 5; i++) {
-    console.log(printable.slice(i * 5, (i * 5) + 5).join(' '));
+  const printable = board.map((n) => (n.length == 1 ? ` ${n}` : n));
+  for (let i = 0; i < 5; i++) {
+    console.log(printable.slice(i * 5, i * 5 + 5).join(" "));
   }
-  console.log(board.length + '\n', board);
+  console.log(board.length + "\n", board);
 }
 
 function playBingo(input) {
   const [picksStr, ...boardStrs] = input.split("\n\n");
 
-  const boards = boardStrs.map((bs) => bs.split(/\s+/g).filter(n => n));
+  const boards = boardStrs.map((bs) => bs.split(/\s+/g).filter((n) => n));
   const picks = picksStr.split(",");
 
   for (const pick of picks) {
@@ -42,7 +42,7 @@ function playBingo(input) {
 function loseBingo(input) {
   const [picksStr, ...boardStrs] = input.split("\n\n");
 
-  let boards = boardStrs.map((bs) => bs.split(/\s+/g).filter(n => n));
+  let boards = boardStrs.map((bs) => bs.split(/\s+/g).filter((n) => n));
   const picks = picksStr.split(",");
 
   for (const pick of picks) {
@@ -56,7 +56,7 @@ function loseBingo(input) {
           YRANGE.every((r) => board[r + i] === "x")
         ) {
           drop.push(n);
-          if(drop.length === boards.length) {
+          if (drop.length === boards.length) {
             return getScore(boards[0], pick);
           }
         }
@@ -67,7 +67,7 @@ function loseBingo(input) {
   }
 }
 
-const input = require('fs').readFileSync('inputs/d4.txt', 'utf-8');
+const input = require("fs").readFileSync("inputs/d4.txt", "utf-8");
 
 console.log(playBingo(input));
 console.log(loseBingo(input));

@@ -37,7 +37,7 @@ function computeLifeSupport(bins) {
   return oxbin * cobin;
 }
 
-const bins = require('fs').readFileSync('inputs/d3.txt', 'utf-8').split("\n");
+const bins = require("fs").readFileSync("inputs/d3.txt", "utf-8").split("\n");
 
 console.log(computePower(bins));
 console.log(computeLifeSupport(bins));

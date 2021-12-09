@@ -16,7 +16,8 @@ const countWindowIncreases = (pings) => {
   return increases;
 };
 
-const pings = require('fs').readFileSync('inputs/d1.txt', 'utf-8')
+const pings = require("fs")
+  .readFileSync("inputs/d1.txt", "utf-8")
   .split(/\s+/)
   .filter((n) => n.match(/^\d+$/))
   .map((n) => parseInt(n, 10));
