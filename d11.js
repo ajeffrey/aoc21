@@ -3,33 +3,9 @@ function flashOctopi(octopi, steps) {
 
   for (let i = 0; i < steps; i++) {
     // increment all octopi
-    everyInGrid(octopi, ([x, y]) => (octopi[y][x] = octopi[y][x] + 1));
-
-    let nines;
-    do {
-      nines = 0;
-      everyInGrid(octopi, ([x, y]) => {
-        if (octopi[y][x] > 9) {
-          nines += 1;
-
-          for (const [nx, ny] of neighbours(octopi, [x, y])) {
-            if (octopi[ny][nx] !== "F") {
-              octopi[ny][nx] += 1;
-            }
-          }
-
-          octopi[y][x] = "F";
-        }
-      });
-
-      flashes += nines;
-    } while (nines > 0);
-
-    everyInGrid(octopi, ([x, y]) => {
-      if (octopi[y][x] === "F") {
-        octopi[y][x] = 0;
-      }
-    });
+    incrementAll(octopi);
+    flashes += triggerFlashes(octopi);
+    resetFlashed(octopi);
   }
 
   return flashes;
@@ -42,33 +18,9 @@ function syncOctopi(octopi) {
     let flashes = 0;
 
     // increment all octopi
-    everyInGrid(octopi, ([x, y]) => (octopi[y][x] = octopi[y][x] + 1));
-
-    let nines;
-    do {
-      nines = 0;
-      everyInGrid(octopi, ([x, y]) => {
-        if (octopi[y][x] > 9) {
-          nines += 1;
-
-          for (const [nx, ny] of neighbours(octopi, [x, y])) {
-            if (octopi[ny][nx] !== "F") {
-              octopi[ny][nx] += 1;
-            }
-          }
-
-          octopi[y][x] = "F";
-        }
-      });
-
-      flashes += nines;
-    } while (nines > 0);
-
-    everyInGrid(octopi, ([x, y]) => {
-      if (octopi[y][x] === "F") {
-        octopi[y][x] = 0;
-      }
-    });
+    incrementAll(octopi);
+    flashes += triggerFlashes(octopi);
+    resetFlashed(octopi);
 
     if (flashes === size) {
       return step;
@@ -82,6 +34,43 @@ function everyInGrid(grid, fn) {
       fn([x, y]);
     }
   }
+}
+
+function incrementAll(octopi) {
+  everyInGrid(octopi, ([x, y]) => (octopi[y][x] = octopi[y][x] + 1));
+}
+
+function triggerFlashes(octopi) {
+  let flashes = 0;
+  let newFlashes;
+  do {
+    newFlashes = 0;
+    everyInGrid(octopi, ([x, y]) => {
+      if (octopi[y][x] > 9) {
+        newFlashes += 1;
+
+        for (const [nx, ny] of neighbours(octopi, [x, y])) {
+          if (octopi[ny][nx] !== "F") {
+            octopi[ny][nx] += 1;
+          }
+        }
+
+        octopi[y][x] = "F";
+      }
+    });
+
+    flashes += newFlashes;
+  } while (newFlashes > 0);
+
+  return flashes;
+}
+
+function resetFlashed(octopi) {
+  everyInGrid(octopi, ([x, y]) => {
+    if (octopi[y][x] === "F") {
+      octopi[y][x] = 0;
+    }
+  });
 }
 
 function neighbours(grid, [x, y]) {

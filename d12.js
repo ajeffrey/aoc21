@@ -1,20 +1,6 @@
-const assert = require("assert");
-
-function isSmallCave(node) {
-  return node.match(/^[a-z]+$/);
-}
-
 function countPaths(text) {
   const edges = text.split("\n");
-  const graph = {};
-
-  for (const edge of edges) {
-    const [from, to] = edge.split("-");
-    graph[from] = graph[from] || [];
-    graph[to] = graph[to] || [];
-    graph[from].push(to);
-    graph[to].push(from);
-  }
+  const graph = constructGraph(edges);
 
   let paths = [["start"]];
   let completePaths = [];
@@ -43,15 +29,7 @@ function countPaths(text) {
 
 function countPathsV2(text) {
   const edges = text.split("\n");
-  const graph = {};
-
-  for (const edge of edges) {
-    const [from, to] = edge.split("-");
-    graph[from] = graph[from] || [];
-    graph[to] = graph[to] || [];
-    graph[from].push(to);
-    graph[to].push(from);
-  }
+  const graph = constructGraph(edges);
 
   let paths = [["start"]];
   let completePaths = [];
@@ -64,8 +42,7 @@ function countPathsV2(text) {
       const counter = {};
       for (const node of nodes) {
         if (isSmallCave(node)) {
-          counter[node] = counter[node] || 0;
-          counter[node] += 1;
+          counter[node] = (counter[node] || 0) + 1;
         }
       }
 
@@ -87,50 +64,25 @@ function countPathsV2(text) {
   return completePaths.length;
 }
 
-const eg = `start-A
-start-b
-A-c
-A-b
-b-d
-A-end
-b-end`;
+function isSmallCave(node) {
+  return node.match(/^[a-z]+$/);
+}
 
-const eg2 = `dc-end
-HN-start
-start-kj
-dc-start
-dc-HN
-LN-dc
-HN-end
-kj-sa
-kj-HN
-kj-dc`;
+function constructGraph(edges) {
+  const graph = {};
 
-const eg3 = `fs-end
-he-DX
-fs-he
-start-DX
-pj-DX
-end-zg
-zg-sl
-zg-pj
-pj-he
-RW-he
-fs-DX
-pj-RW
-zg-RW
-start-pj
-he-WI
-zg-he
-pj-fs
-start-RW`;
+  for (const edge of edges) {
+    const [from, to] = edge.split("-");
+    graph[from] = graph[from] || [];
+    graph[to] = graph[to] || [];
+    graph[from].push(to);
+    graph[to].push(from);
+  }
+
+  return graph;
+}
 
 const paths = require("fs").readFileSync("inputs/d12.txt", "utf-8");
 
-assert(countPaths(eg) === 10);
-assert(countPaths(eg2) === 19);
-assert(countPaths(eg3) === 226);
-
 console.log(countPaths(paths));
-
 console.log(countPathsV2(paths));

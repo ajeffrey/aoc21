@@ -31,9 +31,6 @@ function findErrors(lines) {
         if (stack[stack.length - 1] === match) {
           stack.pop();
         } else {
-          console.log(
-            `illegal "${line[i]}" on line ${lines.indexOf(line) + 1}`
-          );
           total += PRICE[line[i]];
           break;
         }
@@ -61,9 +58,6 @@ function fixErrors(lines) {
         if (stack[stack.length - 1] === match) {
           stack.pop();
         } else {
-          console.log(
-            `illegal "${line[i]}" on line ${lines.indexOf(line) + 1}`
-          );
           illegal = true;
           break;
         }
@@ -72,11 +66,10 @@ function fixErrors(lines) {
     }
 
     if (!illegal && stack.length > 0) {
-      let lineTotal = 0;
-      while (stack.length > 0) {
-        const char = stack.pop();
-        lineTotal *= 5;
-        lineTotal += PRICE_2[char];
+      let lineTotal = 0,
+        char = null;
+      while ((char = stack.pop())) {
+        lineTotal = lineTotal * 5 + PRICE_2[char];
       }
 
       scores.push(lineTotal);

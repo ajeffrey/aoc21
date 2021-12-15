@@ -1,3 +1,15 @@
+function foldedDot(dot, axis, coord) {
+  let [x, y] = dot.split(",").map((n) => parseInt(n, 10));
+
+  if (axis === "x" && x > coord) {
+    x -= (x - coord) * 2;
+  } else if (axis === "y" && y > coord) {
+    y -= (y - coord) * 2;
+  }
+
+  return `${x},${y}`;
+}
+
 function foldOnce(input) {
   const [dots, folds] = input.split("\n\n");
   const fold = folds.split("\n")[0];
@@ -7,15 +19,7 @@ function foldOnce(input) {
   const grid = new Set();
 
   for (const dot of dots.split("\n")) {
-    let [x, y] = dot.split(",").map((n) => parseInt(n, 10));
-
-    if (axis === "x" && x > coord) {
-      x -= (x - coord) * 2;
-    } else if (axis === "y" && y > coord) {
-      y -= (y - coord) * 2;
-    }
-
-    grid.add(`${x},${y}`);
+    grid.add(foldedDot(dot, axis, coord));
   }
 
   return grid.size;
@@ -51,15 +55,7 @@ function foldCompletely(input) {
     const nextGrid = new Set();
 
     for (const dot of grid.values()) {
-      let [x, y] = dot.split(",").map((n) => parseInt(n, 10));
-
-      if (axis === "x" && x > coord) {
-        x -= (x - coord) * 2;
-      } else if (axis === "y" && y > coord) {
-        y -= (y - coord) * 2;
-      }
-
-      nextGrid.add(`${x},${y}`);
+      nextGrid.add(foldedDot(dot, axis, coord));
     }
 
     grid = nextGrid;

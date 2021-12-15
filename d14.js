@@ -1,13 +1,15 @@
-function polymerise(input, steps) {
-  let [templateStr, rulesStr] = input.split("\n\n");
-
-  let template = templateStr.split("");
-
-  const rules = rulesStr.split("\n").reduce((rules, row) => {
+function indexRules(rulesStr) {
+  return rulesStr.split("\n").reduce((rules, row) => {
     const [pair, insert] = row.split(" -> ");
     rules[pair] = insert;
     return rules;
   }, {});
+}
+
+function polymerise(input, steps) {
+  let [templateStr, rulesStr] = input.split("\n\n");
+  let template = templateStr.split("");
+  const rules = indexRules(rulesStr);
 
   for (let i = 0; i < steps; i++) {
     const l = template.length - 1;
@@ -24,8 +26,7 @@ function polymerise(input, steps) {
   }
 
   const counter = template.reduce((acc, char) => {
-    acc[char] = acc[char] || 0;
-    acc[char]++;
+    acc[char] = (acc[char] || 0) + 1;
     return acc;
   }, {});
 
@@ -35,12 +36,7 @@ function polymerise(input, steps) {
 
 function polymeriseFast(input, steps) {
   let [template, rulesStr] = input.split("\n\n");
-
-  const rules = rulesStr.split("\n").reduce((rules, row) => {
-    const [pair, insert] = row.split(" -> ");
-    rules[pair] = insert;
-    return rules;
-  }, {});
+  const rules = indexRules(rulesStr);
 
   let count = {};
   for (let i = 1; i < template.length; i++) {
