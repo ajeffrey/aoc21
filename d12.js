@@ -39,17 +39,20 @@ function countPathsV2(text) {
     for (const nodes of paths) {
       const node = nodes[nodes.length - 1];
       const nextSteps = graph[node].filter((next) => next !== "start");
-      const counter = {};
+      const counter = new Set();
+      let repeated = false;
       for (const node of nodes) {
-        if (isSmallCave(node)) {
-          counter[node] = (counter[node] || 0) + 1;
+        if (!repeated && isSmallCave(node)) {
+          if (counter.has(node)) {
+            repeated = true;
+          } else {
+            counter.add(node);
+          }
         }
       }
 
-      const repeats = Object.values(counter).filter((n) => n > 1).length;
-
       for (const next of nextSteps) {
-        if (isSmallCave(next) && nodes.includes(next) && repeats > 0) {
+        if (isSmallCave(next) && nodes.includes(next) && repeated) {
           continue;
         }
 
